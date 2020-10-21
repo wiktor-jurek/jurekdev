@@ -5,6 +5,7 @@ Here are the answers and solutions to the first tutorial.
 * [Question 1](#q1)
 * [Question 2](#q2)
 * [Question 3](#q3)
+* [Question 4](#q4)
 
 ## Notable Formulae
 
@@ -97,22 +98,102 @@ The answer to this question should be broken down into a few sections:
     We know that the $H(X) = 5.17\, bits$, as calculated in [Q3](#q3)
     $$
     H(X|Y) = H(X) - I(X|Y)$$
-    
-    **When the sum is 2**, that gives us all the information about the die, so the entropy must be 0.
-    
-    $$H(X_{pair}|Y_{sum=2}) = 5.1  - I(X_{pair}|Y_{sum=2})\\
-    H(X_{pair}|Y_{sum=2}) = 0 \implies I(X_{pair}|Y_{sum=2}) = 5.17$$
+  
+    **When the sum is 2**, that gives us all the information about the die, so the entropy must be 0 as there is only one outcome. **This is equivalent to when the sum is 12.**
 
+    $$
+    H(X_{pair}|Y_{sum=2}) = 5.1  - I(X_{pair}|Y_{sum=2})\\
+    H(X_{pair}|Y_{sum=2}) = 0\\
+    \implies I(X_{pair}|Y_{sum=2}) = 5.17
+    $$
+  
+    **When the sum is 3 or 11 (2 outcomes)**:
 
+    $$
+    H(X_{pair}|Y_{sum\,=\,3\,or\,11}) = \log_2(2) = 1\\
+    \implies I = 5.17-1=4.17
+    $$
 
+    **When the sum is 4 or 10 (3 outcomes)**:
+
+    $$
+    H(X_{pair}|Y_{sum\,=\,4\,or\,10}) = \log_2(3) = 1.58\\
+    \implies I = 5.17-1.58=3.59
+    $$
+
+    **When the sum is 5 or 9 (4 outcomes)**:
+
+    $$
+    H(X_{pair}|Y_{sum\,=\,5\,or\,9}) = \log_2(4) = 2\\
+    \implies I = 5.17-2=3.17
+    $$
+
+    **When the sum is 6 or 8 (5 outcomes)**:
+
+    $$
+    H(X_{pair}|Y_{sum\,=\,6\,or\,8}) = \log_2(5) = 2.32\\
+    \implies I = 5.17-2.32=2.85
+    $$
+
+    **When the sum is 7 (6 outcomes)**
+
+    $$
+    H(X_{pair}|Y_{sum\,=7}) = \log_2(6) = 2.58\\
+    \implies I = 5.17-2.58=2.59
+    $$
+
+    Therefore the average mutual information for the whole question is 3.724 bits.
+
+### Q4
+**In the TV show - "Who wants to be a millionaire", contestants have to pick a single correct answer from four choices. At one point during the game, they are allowed to go 50/50, where two incorrect answers are removed, leaving the correct answer and one wrong answer from which to choose.**
+
+1. **Assuming a contestant has no idea what the correct answer is, and so considers each outcome equally likely, how much information is given by going '50:50'?**
+   The entropy before going '50:50':
+   $$
+   H(X_{before}) = -\sum_{i=1}^2 \frac{1}{2} \log_2(\frac{1}{2}) = 2\, bits
+   $$
+   The entropy after going 50:50, where there is now one correct option and one wrong option is:
+   $$
+   H(X_{after}) = -\sum^2_i=1 \frac{1}{2}\log_2(\frac{1}{2}) = 1\, bit
+   $$
+
+   The information gained is the reduction of entropy, and thus the information is 1 bit.
+2. **Alice is playing the game and has become stuck on a question. She is fairly certain the answer is A or B, and hopes that by playing ’50:50’ she will remove one of these. She estimates that it is 45% likely that the answer is A, 40% likely the answer is B, 10% likely the answer is C and 5% likely the answer is D. Calculate the entropy based on her assumptions before and after '50:50' is played if the going ‘50:50’ removes answers B and D.**
+   The entropy before the '50:50' is played:
+   $$
+   H(X) = -0.45\log_2(0.45) - 0.4\log_2(0.4) \\
+   -0.1\log_2(0.1) - 0.05\log_2(0.05)\\
+   = 1.595 \, bits.
+   $$
+
+   After the '50:50' is played, we have A and C left, with the probability of A being $\frac{0.45}{0.45+0.10} = 0.81$, and the probability of C being $\frac{0.10}{0.10+0.45} = 0.18$, so the resulting entropy is:
+   $$
+   H(X) = -0.81\log_2(0.81) - 0.18\log_2(0.18) = 0.684\,bits
+   $$
+
+3. **Calculate the entropy based on her assumptions before and after ‘50:50’ is played if the going ‘50:50’ removes answers C and D.**
+   Same deal, different story. After the '50:50' is played, we have A and B left. The probability of A is $\frac{0.45}{0.45 + 0.40} = 0.53$ and the probability of B is $\frac{0.4}{0.45+0.4} = 0.47$. The resulting entropy is:
+   $$
+   H(X) = -0.53\log_2(0.53) - 0.47\log_2(0.47) = 0.9975\,bits.
+   $$
+
+4. **What is the information (in bits) given by going 50:50 in each of the above two cases?**
+    In each case, the information is the reduction of entropy, so in the first case, it's 0.911 bits and in the second case it's 0.598 bits. The first case gives more information because one of the more likely entries was removed leaving a fairly clear choice.
+
+### Q5
+
+**Three quarters of a group of families own a car. Of the families with a car, 10% regularly use public transport. For the group that do not own a car, 50% are regular users of public transport.**
+
+1. **What percentage of the population use public transport?**
+   $$
+   (0.1\times0.75) + (0.5 \times0.25) = 0.2
+   $$
+2. **What is the entropy of the statement that a family owns a car?**
+   Let A be the event of owning a car or not. The statement that a car is owned answers this event. Event A has two outcomes with probabilities 0.25 and 0.75. Therefore:
+   $$
+    H(A) = -0.75\log_2(0.75)-0.25\log_2(0.25) = 0.811\, bits
+   $$
+
+3. **What is the entropy of the statement made by a family with a car that they use public transport?**
    
-    We get 3.26 bits of information regarding the individual scores of the d
-    x = pair
-    y = the sum
-    What do we know about x, given y.
-
-    $H(X_{pair}|Y_{sum}) = H(X) - I(X|Y)\\
-    H(X_pair) = 5.17 bits$
-
-5. In the TV show - "Who wants to be a millionaire", contestants have to pick a single correct answer from four chaices. At one point during the game, they are allowed to go 50/50, where two incorrect answers are removed, leaving the correct answer
-*4a)*  1 bit.
+4. **What is the mutual information between owning a car and using public transport?**
