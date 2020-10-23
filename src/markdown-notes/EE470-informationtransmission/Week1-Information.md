@@ -6,8 +6,7 @@
 2. [Probability](#third-example)
 3. [Mutual Information](#fourth-examplehttpwwwfourthexamplecom)
 
-
-# What is information
+## What is information
 
 Well, there are multiple definitions as to what people think information is.
 As far as a communication system is concerned, *Information is something that is not already known.*
@@ -39,7 +38,7 @@ $$
 I = \log_2{s}
 $$
 
-**If all of our symbols have the same probability of occurring**, then our definition can be rewritten as 
+**If all of our symbols have the same probability of occurring**, then our definition can be rewritten as:
 
 $$
 I = -\log_2 P(a)
@@ -165,7 +164,7 @@ Remember - there is **no such thing** as an entropy of an outcome, only of an ev
 
 ### Formalising the "Horse Racing" Property
 
-Consider an experiment with $m$ outcomes $a$, and $n$ outcomes $b$. 
+Consider an experiment with $m$ outcomes $a$, and $n$ outcomes $b$.
 *(4 outcomes of black horse winning, and 2 outcomes of grey horse winning...)*
 
 $$H(a_1 \dots a_mb_1\dots b_n)$$
@@ -174,8 +173,7 @@ Should equal
 
 $$H(a\space or\space b) + H(a_1 \dots a_m)P(a)+H(b_1\dots b_n)P(b)$$
 
-
-### What is Entropy, then?
+### What is Entropy, then
 
 Well, entropy is the "Expected value of information", or the average information given by an event.
 
@@ -191,9 +189,9 @@ $$
 = 1 \times \log_2(\frac{1}{k}^{-1}) = log_2k
 $$
 
-**KNOW THIS FORMULA**
+You have to **KNOW THIS FORMULA.**
 
-# Mutual Information
+## Mutual Information
 
 Sometimes a system can let us know about other systems. This is called mutual information. If we observe Y, what does that tell me about X?
 
@@ -232,7 +230,7 @@ $$
 I(X;Y) = H(X) - H(X|Y)
 $$
 
-**THIS IS A MUST-KNOW FORMULA**
+Keep in mind as **THIS IS A MUST-KNOW FORMULA**
 
 The information about X that's conveyed by Y is equal to the Entropy of X, minus the Entropy of X given Y.
 

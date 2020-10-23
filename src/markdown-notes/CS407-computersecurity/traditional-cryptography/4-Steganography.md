@@ -1,53 +1,90 @@
-# Stream Ciphers
-This is where 1 character of the plaintext is encrypted before the next. Think of it as a 'stream'
+# Stenography Overview
 
+Steganography is "Hiding information in plain sight". A good example is "Where's Wally" - we're hiding wally somewhere in an image, and you have to search for where he is.
 
-# Block Ciphers
-A block cipher is a concept in cryptography in which encryption is implied to groups of characters, instead of one after the other.
+Steganography can also be done in writing, such as acrostics. In the final chapter of the book "Through the looking glass", there is an acrostic of alice's name inside it.
 
-An example of a block cipher is the Playfair Cipher. In this case, a block of length two.
+A *payload* is hidden within a *cover object*, which results in a *stego-object*.
 
-This encrypts the plaintext in 'pairs of ciphers' or 'digraphs' by creating a matrix.
+There are a different range of potential cover objects, like images, video files and music files. We'll be focusing on images.
 
-In the playfair cipher, a keyword is selected that can't have any repeating letters and can't contain the letter I. A Key Table is then created, which is a 5x5 grid of repeating letters, where J is left off and substituted wih an I. After the keyword is placed in a grid, the rest of the letters are filled in alphabetical order.
-![](image-kfwlozpb.png)
+The _key_ difference between steganography and cryptography is that in steganography, the message is hidden *in plain sight*.
 
-Here's an example of a block that has the keyword "Key" encoded.
+## Least Significant Bit Algorithm
 
-The plaintext is then turned into pairs.
-J is replaced with an I. A double letter needs to be separated.
+Digital images are good as cover objects. A standard 24bit images is split into 3 pixels - which have 8 bits of information
 
-| Plaintext   | Plaintext (Modified) | Ciphertext        |
-| ----------- | -------------------- | ----------------- |
-| Hello World | HE LX LO WO RL DX    | DB NV MI ZM QM GV |
+|   Red    |  Green   |   Blue   |
+| :------: | :------: | :------: |
+| 10101001 | 01011010 | 01011010 |
 
-Once we have modified the plaintext to conform with the playfair standard, we can begin to encrypt it using our block.
+How do we hide information in this? If we change the colour very *slightly*, by one bit, it will not be detected by the naked eye.
 
-1. If the digraph is in the same row, replace letters by those to the immediate right, with overflow.
-2. If the digraph are in the same column, replace the letters by those immediately beneath, with overflow.
-3. If the digraph don't share a row or a column, in the first row of the first letter, go to the column containing the second, and in the row of thhe second letter o to the column containing the first and use that. Basically, *switcheroo*.
+An 8 bit number won't change much if the least significant bit is flipped. If we flip the most significant bit, the colour will change a lot.
 
-# Permutation Cipher
-An example of a permutation cipher is the Rail cipher.
+### To encode LSB
 
-This is where the characters in the plaintext get their order jumbled. The Rail cipher splits the plaintext into two in an alternating pattern, then appends the odd character alternation to the even character alternation.
+The idea behind the least significant bit algorithm is that we get the payload information, and inject that into each pixels' least significant bit in the cover image.
 
+ 1. Look at pixel
+ 2. Look at one of pixels components (RGB)
+ 3. Flip the last bit to match payload
+ 4. Repeat for each pixel component
+ 5. Repeat for every pixel
+
+### To decode LSB
+
+To decode a stego-object that has had a payload injected using LSB, we loop through each pixel sequentially and read the last bit for each of the pixels. This will form our payload
+
+### Gotchas
+
+1. We need to ensure that the image is large enough to contain the payload. (12.5% of image can be payload)
+2. When extracting information, make sure that we stop when the payload is finished. We can look at the number of bits that are being hidden and store that information within the payload itself so we know when to stop.
+
+## Bitplane Complexity Segmentation Algorithm (BPCS)
+
+This is a more complicated algorithm than LSB, but it comes at a benefit that it can hold a much larger payload. It relies on using "bitplanes". Because each pixel has 8 bits of each colour, there are 24 bitplanes we can leverage, 8 for each colour.
+
+| Bit Plane |           Value            | Information |
+| :-------: | :------------------------: | :---------: |
+| All bits  | 10100101 10101001 01001011 |  10856779   |
+| 0th Blue  | xxxxxxxx xxxxxxxx xxxxxxx1 |   Blue 1    |
+| 1st Blue  | xxxxxxxx xxxxxxxx xxxxxx1x |   Blue 3    |
+|    ...    |            ...             |     ...     |
+|  7th Red  | 1xxxxxxx xxxxxxxx xxxxxxxx |   Red 128   |
+
+It's important to know that the first few bitplanes for each colour don't contain much *useful* information, and don't contribute much to the actual image. We can leverage that to inject the payloads there.
+
+| Image                               | Bitplane                                                                                                                              |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| ![1st Bitplane](image-kfu0tqh2.png) | 0th bitplane. Very noisy, we can easily add information into this one.                                                                |
+| ![2nd Bitplane](image-kfu0u2py.png) | 1st bitplane. Still quite noisy, can put info here.                                                                                   |
+| ![3rd Bitplane](image-kfu0uav2.png) | 2nd bitplane. Here we can see some useful information come through, but we can still encode information in the more complex sections. |
+| ![4th Bitplane](image-kfu0uipg.png) | 3rd bitplane. Still very noisy, but we have to be careful not to place the payload in the information-light sections.                 |
+| ![5th Bitplane](image-kfu0uz5p.png) | 5th bitplane. As we continue to travel up the bitplanes, we have less usable space in which we can inject the payload.                |
+
+### The algorithm
+
+``` plaintext
+If there is more payload to hide
+ Get the next bitplane
+  While there is more space in the current bit plane
+   Get the next complex segment
+   Get the next block of payload
+   If the payload information is complex, then hide it in the current segment.
+    Else conjugate by ferforming an XOR operation with
+    a "checkerboard" segment then hide it.
 ```
-HELLOBOB
-H L O O
- E L B B
-HLOOELBB
 
-```
+*How do we check if the next block is complex enough?*
+Calculate the border
+=number of changes in row + number of changes in col
+Colculate the maximum border
+= max possible row changes + max possible col changes
 
-# One Time Pads
-One time pads are the ideal, it's perfect computational secrecy. You cannot crack the OTP as they are generated using random characters.
-It's secure as the key can't be predicted as it's random, and it's only used once; as soon as it's used, it's destroyed afterwards.
+complexit = border/max border
 
-One time pads are generated using a *true* random algorithm.
+Sufficiently complex if complexity > alpha.
+alpha = 0.3
 
-* The Key has to be at least as long as the plaintext
-* It has to be truly random
-* It has to be used only once
-* Only two copies of the key, one for sender and the receiver.
-
+Because we can hide information across all bitplanes, not just the 0th one like the LSB algorithm does, the BPCS algorithm can hide a much larger payload (around 50%).

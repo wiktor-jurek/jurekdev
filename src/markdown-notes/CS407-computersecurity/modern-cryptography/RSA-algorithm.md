@@ -1,4 +1,5 @@
-RSA Key Generation
+# RSA Key Generation
+
 This is named after 3 people, the guys that came up with this encryption algorithm. We'll go over the steps - on a high level - to generate public and private keys.
 
 Pick two large distinct random primes (P and Q)
@@ -23,14 +24,15 @@ Public Key is $(e,n)$
 Private Key is $(d,n)$.
 It is computationally infeasible to computed d from e and n alone.
 
-### RSE encryption and decryption
+## RSE encryption and decryption
 
 Encryption
+
 * Split Message into blocks
 * For each plaintext block b
-	* $B^e (\mod n)$
-	
+  * $B^e (\mod n)$
+
 Decryption
+
 * For each ciphertext block C
-	* $C^d(\mod n)$
-	* 
+  * $C^d(\mod n)$

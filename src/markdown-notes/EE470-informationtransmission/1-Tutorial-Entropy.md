@@ -6,6 +6,7 @@ Here are the answers and solutions to the first tutorial.
 * [Question 2](#q2)
 * [Question 3](#q3)
 * [Question 4](#q4)
+* [Question 5](#q5)
 
 ## Notable Formulae
 
@@ -49,7 +50,7 @@ The answer to this question should be broken down into a few sections:
  1. What's the info content of a pixel? Assume a pixel consists of an R, G and B value, where each can be a value between 0 and 255.
     $$I = \log_2(256^3) =  24\, bits$$
  2. How many pixels on the screen per frame? Assuming a 600*800 resolution...
-    $$ 600*800*24\, bits = 11,520,000 \, bits$$ 
+    $$ 600*800*24\, bits = 11,520,000 \, bits$$
  3. How many "Screens" per second is the PAL standard? 25 fps.
     $$11,520,000 * 25 = 288,000,000 \, bps
     \\= 34.33 \, mbps$$
@@ -145,6 +146,7 @@ The answer to this question should be broken down into a few sections:
     Therefore the average mutual information for the whole question is 3.724 bits.
 
 ### Q4
+
 **In the TV show - "Who wants to be a millionaire", contestants have to pick a single correct answer from four choices. At one point during the game, they are allowed to go 50/50, where two incorrect answers are removed, leaving the correct answer and one wrong answer from which to choose.**
 
 1. **Assuming a contestant has no idea what the correct answer is, and so considers each outcome equally likely, how much information is given by going '50:50'?**
@@ -195,5 +197,5 @@ The answer to this question should be broken down into a few sections:
    $$
 
 3. **What is the entropy of the statement made by a family with a car that they use public transport?**
-   
+
 4. **What is the mutual information between owning a car and using public transport?**

@@ -1,10 +1,14 @@
-# Intent
+# Visitor Pattern
+
+## Intent
+
 To represent an operation to be performed on the elements of an object structure. **Visitor lets you define a new operation without changing the classes of the elements on which it operates.**
 
 With a visitor, you can define a new method that works on a class without changing it.
 
-# Motivation
-Consider a compiler performing operations on elements of an abstract syntax tree. 
+## Motivation
+
+Consider a compiler performing operations on elements of an abstract syntax tree.
 
 The issue here is that operations within each node type are different, and if we want to change that, we need to change the code within every single node type. This could be hundreds if not thousands of node types.
 
@@ -12,7 +16,9 @@ The issue here is that operations within each node type are different, and if we
 2. When a node "Accepts" the visitor, it sends a request to the visitor that encodes the elment's class, and the element as an argument.
 3. The visitor then has access to the element and will execute the operation
 4. We can add new functionality by defining new NodeVisitor classes.
+
 ## Hierarchy
+
 The structure of the Visitor pattern involves two separate hierarchies of objects - the one below is the object structure that we wish to traverse (for example, the AST), and the other one that captures the operations that we wist to perform on the nodes (the visitors.)
 
 The AST

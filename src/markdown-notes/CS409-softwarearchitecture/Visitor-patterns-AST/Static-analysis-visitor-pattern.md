@@ -1,3 +1,5 @@
+# Visitor Pattern
+
 By now we should have appreciated that static analysis is used to extract information from a program.
 How we actually do this totally depends on what we're trying to do, and the information we want to pull out of the program.
 
@@ -8,6 +10,7 @@ Hand-coded solutions are only suitable for the very simplest of problems. The ge
 What you've got to remember when writing a static analyser, it needs to be *general*. It has to work for *every program*. There are tools out there to do it for you.
 
 There are a couple of things that can be done manually, so there are some unix tools such as grep, sed, awk, and stuff. For anything more complex - use a framework like:
+
 * javacc
 * ANTLR
 * Eclripse JDT

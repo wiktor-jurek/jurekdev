@@ -1,6 +1,7 @@
 # EE470 Examples
 
-## Mutual Information 
+## Mutual Information
+
 Let $X$ be a card chosen at random from a 52 card pack.
 
 $$

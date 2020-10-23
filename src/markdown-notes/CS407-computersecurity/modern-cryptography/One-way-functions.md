@@ -1,10 +1,14 @@
+# One Way Functions
+
 Comparable to painting: it's easy to mix two colours together, but splitting the mixed colour down into it's components is difficult.
 
-Modern cryptography is heavily reliant on one way functions. Some examples are 
+Modern cryptography is heavily reliant on one way functions. Some examples are
+
 * Prime Factorisation
 * Modular Arithmetic
 
-### Modular Arithmetic
+## Modular Arithmetic
+
 If we consider the division of two integers:
 
 $\frac{x}{y} = Q remainder R$

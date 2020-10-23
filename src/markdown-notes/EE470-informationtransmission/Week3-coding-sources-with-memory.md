@@ -1,4 +1,4 @@
-# Coding sources with Memory
+# Lec 1 - Coding sources with Memory
 
 ## Pattern Substitution
 
@@ -93,6 +93,7 @@ Encode ABBABABAC
 | 6    | -   |           | (3)    | C      |
 
 #### LZ Applications
+
 LZ77 + Bit flags of literals (LZSS) + Huffman Encoding used for DEFLATE.
 
 * DEFLATE is the most common zip compression format
@@ -105,3 +106,9 @@ LZW is used for UNIX compress and GIF encoding!
 Differential encoding is very commonly used when encoding values that come from the real world. the real world doesn't really change very quickly. What that means is that we can use the current value to *predict* the next. Generally speaking, differential encoding schemes are **lossy**, but you can - by allowing for all different change values - make them lossless.
 
 For instance, take a look at this signal:
+
+We can encode all of the individual values of the signal at a given sample rate. Here, we'd end up with 64 bits for all of these 16 values.
+
+### Delta Modulation
+
+An old method, but effective for different types of signal is called delta modulation. It's *really* easy to do.
