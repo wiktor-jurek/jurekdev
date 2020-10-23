@@ -1,4 +1,22 @@
-# Lec 1 - Coding sources with Memory
+# Coding sources with Memory
+
+## Contents
+
+* [Coding sources with Memory](#coding-sources-with-memory)
+  * [Contents](#contents)
+  * [Pattern Substitution](#pattern-substitution)
+    * [Run-length encoding](#run-length-encoding)
+    * [LZ77 Compression](#lz77-compression)
+      * [LZ77 Example](#lz77-example)
+    * [LZW (Lempel-Ziv-Welsh) Compression](#lzw-lempel-ziv-welsh-compression)
+      * [LZW Example](#lzw-example)
+      * [LZ Applications](#lz-applications)
+  * [Differential Encoding](#differential-encoding)
+    * [Delta Modulation](#delta-modulation)
+    * [Differential PCM](#differential-pcm)
+    * [Adaptive DPCM (ADPCM)](#adaptive-dpcm-adpcm)
+  * [Transform Encoding](#transform-encoding)
+    * [JPEG Coding](#jpeg-coding)
 
 ## Pattern Substitution
 
@@ -103,12 +121,85 @@ LZW is used for UNIX compress and GIF encoding!
 
 ## Differential Encoding
 
-Differential encoding is very commonly used when encoding values that come from the real world. the real world doesn't really change very quickly. What that means is that we can use the current value to *predict* the next. Generally speaking, differential encoding schemes are **lossy**, but you can - by allowing for all different change values - make them lossless.
+Differential encoding is very commonly used when encoding values that come from the real world. The real world doesn't really change very quickly. What that means is that we can use the current value to *predict* the next. Generally speaking, differential encoding schemes are **lossy**, but you can - by allowing for all different change values - make them lossless.
 
 For instance, take a look at this signal:
+![simple-wave](img/varying-signal.png)
 
 We can encode all of the individual values of the signal at a given sample rate. Here, we'd end up with 64 bits for all of these 16 values.
 
+![digitised-signal](img/digitised-wave.png)
+
 ### Delta Modulation
 
-An old method, but effective for different types of signal is called delta modulation. It's *really* easy to do.
+An old method, but effective for different types of signal is called delta modulation. It's *really* easy to do. There's a threshold detector that is designed using an Op-amp and a capacitor. What it does is create a bit of a sawtooth wave depending on the threshold. Using this method we can **only go up or down**.
+![delta modulator](img/delta-modulation.png)
+This is a good, cheap, effective way of transmitting signals that are very gradual in nature such that the delta modulator can keep up. This is called **slope overload**. Here's an example of when a modulator can't really keep up.
+![delta modulator lag](img/delta-modulation-lag.png)
+As you can see, when the signal changes quickly, the delta modulator can only do so much to keep up. A way of helping with the slope overload is by increasing the sample rate of the modulator.
+
+We can improve on the basic concept with a little bit of extra complexity. This is called differential PCM.
+
+### Differential PCM
+
+What we can do is *estimate* what we think the next value is going to be (estimation calculation is pre-arranged with the sender and receiver) and send how the actual signal **differs** from the *expected* value. It's best shown with a table:
+
+| Step | Value | Estimate | Value sent (error) |
+| ---- | ----- | -------- | ------------------ |
+| 0    | 4     | -        | 4                  |
+| 1    | 5     | 4        | 1                  |
+| 2    | 7     | 5        | 2                  |
+| 3    | 9     | 7        | 2                  |
+| 4    | 10    | 9        | 1                  |
+| 5    | 10    | 10       | 0                  |
+| 6    | 10    | 10       | 0                  |
+| 7    | 11    | 10       | 1                  |
+| 8    | 12    | 11       | 1                  |
+
+Sending the value would take up 64 bits, whereas sending a differentially encoded PCM signal only takes 49 bits. We're also sending this at no loss of quality.
+*But we can do better.*
+
+### Adaptive DPCM (ADPCM)
+
+Here, we are yet again increasing the sophistication in guessing where the signal is going by taking into account the direction of movement of the signal.
+
+* Our first packet we just send the value outright.
+* Our second packet we just assume the signal stays constant.
+* Our third packet is where things get interesting.
+  * We examine the gradient that the first two points made, and extrapolate that to guess the third point.
+  * We then send the error in our guess, and update our gradient accordingly so that the fourth packet can be sent.
+
+![Adaptive DPCM](img/ADPCM.png)
+
+This, again *halves* our bandwidth. We could get 4 users on a phone-line where you would originally get one!
+
+## Transform Encoding
+
+Patterns and other things in this world are often easier to see in a different domain. For example, the time and space domain can be converted to a frequency domain because, generally, in the real world things don't change that fast so lower frequencies are going to predominate.  If you change into the frequency domain, you can encode those lower frequencies using less data and effect - *compression*.
+Another example is audio - a microphone can hear more frequencies than the our ears can, so if we're transmitting for human audio consumption there is no point in transmitting the frequencies that *we can't even hear*.
+
+### JPEG Coding
+
+One more good example is a JPEG. JPEG compression is actually quite complex. Here's a TL;DR:
+
+* Sample the image
+* Form 8x8 blocks. For each block:
+  * Take Discrete Cosine Transform *(from spacial domain to frequency domain)*
+  * "Quantise" - we get rid of the high-frequency components - this is the lossy bit
+  * Perform differential encoding on the DC component
+  * Use Run-Length encoding
+  * Use Huffman or Arithmetic coding on the result.
+
+Let's break these steps down a little.
+
+| Step                          | Description                                                                                                                                                                                                                                                                                      |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Sampling the Image            | ![Image Sampling](img/image-sampling.png)                                                                                                                                                                                                                                                        |
+| Discrete Cosine Transform     | ![Cosine Transform](img/cosine-transform.png)                                                                                                                                                                                                                                                    |
+| Quantisation                  | ![Quantisation](img/quantisation.png) <br> This is the clever bit. We divide all of our values by what's in the quantisation table. We effectively get rid of the less important frequency components. We can adjust the amount of compression by changing the values in our quantisation table. |
+| DC differential encoding      | ![DC encoding](img/DC-encoding.png)                                                                                                                                                                                                                                                              |
+| Run Length encoding on raster | ![Run Length Encoding](img/run-length-encoding.png)                                                                                                                                                                                                                                              |
+So, basically,
+[![Do i look like i know what a JPEG is](https://camo.derpicdn.net/88d1d5833753eb7ceec96e27e2580d15d306c84a?url=http%3A%2F%2Fi.imgur.com%2FZ60Q0Xk.gif)](https://www.youtube.com/watch?v=QEzhxP-pdos)
+
+Here we conclude, that when the audience is human, we can get very very high compression.

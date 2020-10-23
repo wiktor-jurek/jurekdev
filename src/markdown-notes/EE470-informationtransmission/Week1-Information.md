@@ -1,10 +1,19 @@
-# Table of Contents
+# Information  <!-- omit in toc -->
 
-1. [What is Information](#i)
-   1. [Hartley's Definition](#example2)
-   2. [Shannon's Definition](#u)
-2. [Probability](#third-example)
-3. [Mutual Information](#fourth-examplehttpwwwfourthexamplecom)
+## Contents
+
+* [Contents](#contents)
+* [What is information](#what-is-information)
+* [Hartley's Definition](#hartleys-definition)
+* [The Hartley problem](#the-hartley-problem)
+* [The Horse-Racing problem](#the-horse-racing-problem)
+* [The weighted sum](#the-weighted-sum)
+* [Shannon's Definition](#shannons-definition)
+  * [Formalising the "Horse Racing" Property](#formalising-the-horse-racing-property)
+  * [What is Entropy, then](#what-is-entropy-then)
+* [Mutual Information](#mutual-information)
+  * [Probability Review](#probability-review)
+  * [Back to mutual information](#back-to-mutual-information)
 
 ## What is information
 
@@ -217,7 +226,7 @@ $$
 
 This can be graphically represented as follows:
 
-!["Probability Venn Diagram"](probability-venndiagram.png)
+!["Probability Venn Diagram"](img/probability-venndiagram.png)
 
 ### Back to mutual information
 
@@ -245,7 +254,7 @@ H(X) - H(X|Y) = H(Y) - H(Y|X)
 $$
 
 Graphically, this is very similar to probability.
-![Entropy Venn-Diagram](entropy-venndiagram.png)
+![Entropy Venn-Diagram](img/entropy-venndiagram.png)
 Here, we can see that the mutual information is H(B) - H(B|A), but also H(A)-H(A|B).
 
 If we have *independent events*, then the entropy of X given Y stays the same. The two systems are completely decoupled - independent.
