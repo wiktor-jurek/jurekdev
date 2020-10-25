@@ -1,12 +1,15 @@
-# Tutorial 1
+# Tutorial 1 <!-- omit in toc -->
 
 Here are the answers and solutions to the first tutorial.
 
-* [Question 1](#q1)
-* [Question 2](#q2)
-* [Question 3](#q3)
-* [Question 4](#q4)
-* [Question 5](#q5)
+* [Notable Formulae](#notable-formulae)
+* [Q1](#q1)
+* [Q2](#q2)
+* [Q3](#q3)
+* [Q4](#q4)
+* [Q5](#q5)
+* [Q6](#q6)
+* [Q7](#q7)
 
 ## Notable Formulae
 
@@ -18,7 +21,7 @@ Information I:
 $$I = \log_2 s$$
 Assuming that each outcome is equally as likely and where S is the number of different outcomes.
 
-### Q1
+## Q1
 
 What is the information content (in bits) of the following events:
 
@@ -42,7 +45,7 @@ What is the information content (in bits) of the following events:
    4. **Considering only the colour:**
     $$I = \log_2{(2)} + \log_2{(26)} = 5.5bits$$
 
-### Q2
+## Q2
 
 **By making reasonable judgement regarding image resolution, estimate the information content of a PAL image?**
 The answer to this question should be broken down into a few sections:
@@ -55,7 +58,7 @@ The answer to this question should be broken down into a few sections:
     $$11,520,000 * 25 = 288,000,000 \, bps
     \\= 34.33 \, mbps$$
 
-### Q3
+## Q3
 
 **Calculate the entropy of the event of tossing a pair of dice:**
 
@@ -145,7 +148,7 @@ The answer to this question should be broken down into a few sections:
 
     Therefore the average mutual information for the whole question is 3.724 bits.
 
-### Q4
+## Q4
 
 **In the TV show - "Who wants to be a millionaire", contestants have to pick a single correct answer from four choices. At one point during the game, they are allowed to go 50/50, where two incorrect answers are removed, leaving the correct answer and one wrong answer from which to choose.**
 
@@ -182,7 +185,7 @@ The answer to this question should be broken down into a few sections:
 4. **What is the information (in bits) given by going 50:50 in each of the above two cases?**
     In each case, the information is the reduction of entropy, so in the first case, it's 0.911 bits and in the second case it's 0.598 bits. The first case gives more information because one of the more likely entries was removed leaving a fairly clear choice.
 
-### Q5
+## Q5
 
 **Three quarters of a group of families own a car. Of the families with a car, 10% regularly use public transport. For the group that do not own a car, 50% are regular users of public transport.**
 
@@ -197,5 +200,87 @@ The answer to this question should be broken down into a few sections:
    $$
 
 3. **What is the entropy of the statement made by a family with a car that they use public transport?**
+   Let event B be whether public transport is used. The required entropy is therefore:
+
+   $$
+   H(B|A = CarOwner) =\\
+   -p(publicTransport|CarOwned)\log_2(publicTransport|carOwned)\\
+   -p(!publicTransport|carOwned)\log_2(!publicTransport|carOwned)\\
+   = -0.1\log_2(0.1)-0.9\log_2(0.9)\\
+   = 0.33219 + 0.13680 = 0.46899\, bits
+   $$
 
 4. **What is the mutual information between owning a car and using public transport?**
+   Using the previous definitions of $A$ and $B$, $I(A;B) = H(A)-H(A|B)$ or $H(B) = H(B|A)$.
+   We shall use the second form here as more of the answers are already available.
+   For $H(B)$, from part (a), 0.2 of the population use public transport, so:
+   $$H(B) = -0.2\log_2(0.2)-0.8\log_2(0.8) = 0.72193\, bits$$
+   $H(B|A=carOwner)$ was calculated above.
+   $H(B|A=!carOwner)$ is $-0.5\log_2(0.5)-0.5\log_2(0.5)=1\, bit$
+   Therefore, $H(B|A) = (0.75*0.46899) + (0.25*1)$
+   Thus, $I(A;B) = H(B) - H(B|A) = 0.72193 - 0.6017 = 0.1202\, bits$
+
+## Q6
+
+**A vase contains 6 black balls and 4 white balls. Experiment X involves the random drawing of a ball, without it being replaced in the vase. Experiment Y involves the random drawing of a second ball.**
+
+1. **What is the entropy of event X?**
+   Thee are 6 black balls and 4 white balls. The probability of drawing a block ball is therefore 0.6 and 0.4 for the white. The entropy is therefore:
+
+   $$
+   H(X) = -0.6\log_2(0.6)-0.4\log_2(0.4) = 0.97095 \,bits
+   $$
+
+2. **What is the entropy of event Y if the colour of the ball selected in the first experiment is known, and it is returned to the vase?**
+   Well, actually, it's going to be the same. If we take the ball out then put it back in, drawing another random ball doesn't change our uncertainty.
+
+3. **What is the entropy of event Y if the colour of the first ball is not known, and it is returned to the vase?**
+   Same deal,  the colour of the first ball does not matter since it is returned to the vase.
+
+4. **What is the entropy of event Y if the colour of the ball selected in the first experiment is known, and it is not returned to the vase?**
+   Since the ball drawn was not replaced, there are now 9 left in the vase for experiment Y. A distinction must now be made between the possibilities that a black or a white ball is drawn with experiment X. We have to re-calculate our probabilities now that a ball has been taken away.
+   $$
+   P(Y = white | X = white) = 3/9\\
+   P(Y = black | X = white) = 6/9\\
+   P(Y = white | X = black) = 4/9\\
+   P(Y = black | X = black) = 5/9
+   $$
+
+   If we first draw a **white** ball, then the entropy is $-\frac{3}{9}\log_2(\frac{3}{9})-\frac{6}{9}\log_2(\frac{6}{9})$ = 0.9183 bits.
+   If we first draw a **black** ball, then the entropy is $-\frac{4}{9}\log_2(\frac{4}{9})-\frac{5}{9}\log_2(\frac{5}{9})$ = 0.9910 bits.
+   The entropy is greater in the second case because the number of white and black balls remaining are more even, so we are more uncertain of the result.
+
+5. **What is the entropy of event Y if the colour of the first ball is not known, but it is not returned to the vase?**
+
+   If we don't know the result of the first experiment we have to estimate it. p(X = white) of the time the entropy of Y will be H(Y| X = white), while p(X = black) of the time the entropy will by $H(Y| X = black)$.
+   Therefore the entropy will be the weighted sum of the two entropies.
+   $$
+   H(Y|X) = p(X = white) H(Y| X = white) + p(X = black) H(Y| X = black)\\
+   = 0.4 *0.9183 + 0.6* 0.9910 = 0.9619 \,bits
+   $$
+
+## Q7
+
+**An urn contains 4 black and 8 white balls. Three balls are drawn from the urn without replacement (i.e. they are not put back in the urn after being drawn and so are not available to be chosen in the next draw).**
+
+1. **What is the entropy of the experiment of choosing the first ball?**
+   * $P(blackBall) = \frac{1}{3}$;
+   * $P(whiteBall) = \frac{2}{3}$;
+   * $H(X) = - \frac{1}{3} \log_2 (\frac{1}{3}) - \frac{2}{3} \log_2 (\frac{2}{3}) = 0.9183\, bits$
+
+2. **What is the entropy of second draw given that the first ball is white?**
+   The probabilities are now:
+   * $P(blackBall) = \frac{4}{11}$;
+   * $P(whiteBall) = \frac{7}{11}$;
+   * $H(Y|X=white) = - \frac{4}{11} \log_2 (\frac{4}{11}) - \frac{7}{11} \log_2 (\frac{7}{11}) = 0.9457\, bits$
+
+3. **What is the entropy of second draw given that the first ball is black?**
+   The probabilities are now:
+   * $P(blackBall) = \frac{3}{11}$;
+   * $P(whiteBall) = \frac{8}{11}$;
+   * $H(Y|X=black) = - \frac{3}{11} log2 (\frac{3}{11}) - \frac{8}{11} log2 (\frac{8}{11}) = 0.8454\, bits$
+
+4. **What then is the entropy of second draw?**
+   This is the weighted sum of the entropies of each possibility (i.e. white ball drawn or black ball drawn in the first experiment.)
+   * $H(Y|X) = p(X=black)H(Y|X=black) + p(X=white)H(Y|X=white)$
+   * $= 1/3 *0.84535 + 2/3* 0.94566 = 0.9122\, bits$
