@@ -71,4 +71,4 @@ In contrast to traditional biometrics, these metrics are used from your behaviou
 
 **Voice Recognition** is a mix of both behavioural and traditional.
 
-**Acceptabality** is always something to think about when choosing a biometric system of authentication.
+**Acceptability** is always something to think about when choosing a biometric system of authentication.

@@ -25,8 +25,8 @@ In unix, we have read, write and execute.
 
 ## Rules of least privilege
 
-We should be granting *the minimun acccess* required to complete the job. When put in a situation when providing access for people to complete tasks, we should be taking their job into consideration, and what would be the minimum privileges they need to complete that job.
+We should be granting *the minimum access* required to complete the job. When put in a situation when providing access for people to complete tasks, we should be taking their job into consideration, and what would be the minimum privileges they need to complete that job.
 
 * *Privilege Escalation* - when someone can get extra levels of access by increasing their privileges within a system.
-* *Vertical Escalation* - Access resoruces granted to more privileged accounts.
-* *Horizontal Escalation* - Access resouces granted to similar accounts.
+* *Vertical Escalation* - Access resources granted to more privileged accounts.
+* *Horizontal Escalation* - Access resources granted to similar accounts.
