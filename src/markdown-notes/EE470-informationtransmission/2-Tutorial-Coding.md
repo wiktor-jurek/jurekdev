@@ -3,6 +3,8 @@
 * [Q1](#q1)
 * [Q2](#q2)
 * [Q3](#q3)
+* [Q4](#q4)
+* [Q5](#q5)
 
 ## Q1
 
@@ -58,3 +60,63 @@ For each code, identify whether it's distinct, uniquely decipherable and instant
    Efficiency is therefore:
   
    $$\frac{1.585}{2} = 79.2\%$$
+
+2. **Repeat (i) for the case where the source produces: 3 symbols, with probabilities 1/2, 1/4 and 1/4** 
+   Since now there are 3 symbols, the encoding is the same, so the average length is 2. The entropy is now:
+   $$
+   -\frac{1}{2}\log(\frac{1}{2})-\frac{1}{4}\log(\frac{1}{4}) = 1.5\, bits.
+   $$
+
+   Efficiency is therefore:
+
+   $$\frac{1.5}{2} = 75\%$$
+
+3. **Repeat (i) for the case where the source produces: 4 symbols, with probabilities 1/4**
+   Using PCM, the coding would be 00, 01, 10, 11. The average length is 2. The minimum length is given by the entropy, H(X). Since each symbol is equally likely, the entropy is:
+  
+   $$\log_2 (4) = 2$$
+
+   Efficiency is therefore:
+
+   $$\frac{2}{2} = 100\%$$
+
+4. **Repeat (i) for the case where the source produces: 5 symbols, with probabilities 1/5**
+   Using PCM, the coding would be 000, 001, 010, 011, 100. The average length is 3. The minimum length is given by the entropy, H(X). Since each symbol is equally likely, the entropy is:
+
+   $$log_2 (5) = 2.322.$$
+
+   Efficiency is therefore:
+
+   $$ \frac{2.322}{3}= 77.4\%$$
+
+## Q4
+
+**A memoryless information source produces 8 different symbols with respective probabilities of 1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 1/128, 1/128. These symbols are encoded as 000, 001, 010, 011, 100, 101, 110, 111 respectively.**
+
+1. What is the entropy per source symbol?
+   The entropy per source symbol is:
+
+   $$
+   H(U) = -\sum^8_{k=1}p(u_i)\log_p(u_i)\\
+   =-\frac{1}{2}\log(\frac{1}{2})-\frac{1}{4}\log(\frac{1}{4})-\frac{1}{8}\log(\frac{1}{8})-\dots\\
+   = 1.98\,bits
+   $$
+
+2. What is the efficiency of this code?
+   The efficiency is $\frac{L_{min}}{L}$, where L is the average length of the code words.
+   $$
+   L_{min} = \frac{H}{\log_2r} = \frac{1.98}{log_22} = 1.98\\
+   L = 3\\
+   \text{Efficiency} = 0.66
+   $$
+
+[TODO - Finish this section]: ()
+
+1. Design a code using the Shannon-Fano algorithm, and calculate its efficiency.
+2. Design a code using the Huffman algorithm, and calculate its efficiency.
+3. If the source symbol rate is 1000/sec, on average what is the encoded bit rate?
+
+## Q5
+
+A memoryless information source generates symbols with probability 0.65, 0.2,
+and 0.15.
